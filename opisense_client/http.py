@@ -3,7 +3,7 @@ from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 import opisense_client as oc
 import requests
-import json
+
 
 """ Parameters """
 API_URL = 'https://api.opinum.com:443/'
