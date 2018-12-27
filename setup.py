@@ -11,7 +11,7 @@ setuptools.setup(
     description="Package to interact with the Opisense API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/opinum/opisense_client/",
+    url="https://github.com/svandegar/opisense_client",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
