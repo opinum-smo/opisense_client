@@ -3,7 +3,7 @@ from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 import opisense_client as oc
 import requests
-
+import json
 
 """ Parameters """
 API_URL = 'https://api.opinum.com:443/'
@@ -13,13 +13,12 @@ headers = {"Content-Type": "application/json",
            "X-Opisense-Api-Version": "1.1"}
 
 """ Methods """
-
-
-def GET(opisense_token: str, api_filter, feedback=False):
+def GET(opisense_token: str, api_filter, json_output = False, feedback=False):
     """
     Get every Opisense Objects corresponding to the ApiFilter
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param api_filter: ApiFilter object
+    :param json_output: if Truem returns the json object from the response
     :param feedback: if True, prints HTTP response code in console
     :return:
     """
@@ -27,18 +26,30 @@ def GET(opisense_token: str, api_filter, feedback=False):
     result = requests.get(API_URL + api_filter.path + '?' + urlencode(api_filter.filters, True), headers=headers)
     if feedback == True:
         print('Response: ' + str(result.status_code))
-    return result
+    if json_output:
+        try:
+            return result.json()
+        except:
+            raise ValueError('No JSON available in the response')
+    else:
+        return result
 
 
-def POST(opisense_object, opisense_token: str,  parent_id=None, feedback=False):
+def POST(opisense_object, opisense_token: str,  parent_id=None, force_path = None,feedback=False):
     """
     Creates a new Opisense Object
     :param opisense_object: Opisense Object to create
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to create some objects type
     :param feedback: if True, prints HTTP response code in console
+    :param force_path: if specified, POST to this path instead of the default one
     :return:
     """
+    if force_path:
+        path = force_path
+    else:
+        path = opisense_object.api_path
+
     json_object = opisense_object.json()
     headers['Authorization'] = opisense_token
     if opisense_object.type == 'variable':
@@ -47,21 +58,27 @@ def POST(opisense_object, opisense_token: str,  parent_id=None, feedback=False):
         else:
             raise ValueError('The parent sourceId is mandatory to create a variable')
     else:
-        result = requests.post(API_URL + opisense_object.api_path, headers=headers, data=json_object)
+        result = requests.post(API_URL + path, headers=headers, data=json_object)
     if feedback == True:
         print('Response: ' + str(result.status_code))
     return result
 
 
-def PUT(opisense_object, opisense_token: str, parent_id=None, feedback=False):
+def PUT(opisense_object, opisense_token: str, parent_id=None, force_path = None,feedback=False):
     """
     Updates existing Opisense Object
     :param opisense_object: Opisense Object to update
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to update some objects type
     :param feedback: if True, prints HTTP response code in console
+    :param force_path: if specified, POST to this path instead of the default one
     :return:
     """
+    if force_path:
+        path = force_path
+    else:
+        path = opisense_object.api_path
+
     json_object = opisense_object.json()
     headers['Authorization'] = opisense_token
     object_id = opisense_object.id
@@ -74,7 +91,7 @@ def PUT(opisense_object, opisense_token: str, parent_id=None, feedback=False):
             raise ValueError('The variableId and parent sourceId are mandatory to update a variable')
     else:
         if object_id:
-            result = requests.put(API_URL + opisense_object.api_path + "/" + str(object_id), headers=headers,
+            result = requests.put(API_URL + path + "/" + str(object_id), headers=headers,
                                   data=json_object)
         else:
             raise ValueError('The object id is mandatory to update an object')
@@ -89,11 +106,17 @@ def DELETE(opisense_object, opisense_token: str, feedback=False):
     :param opisense_object: Opisense Object to delete
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param feedback: if True, prints HTTP response code in console
+    :param force_path: if specified, POST to this path instead of the default one
     :return:
     """
+    if force_path:
+        path = force_path
+    else:
+        path = opisense_object.api_path
+
     headers['Authorization'] = opisense_token
     if opisense_object.id:
-        result = requests.delete(API_URL + opisense_object.api_path + "/" + str(opisense_object.id), headers=headers)
+        result = requests.delete(API_URL + path + "/" + str(opisense_object.id), headers=headers)
     else:
         raise ValueError('The object id is mandatory to delete an object')
     if feedback == True:
