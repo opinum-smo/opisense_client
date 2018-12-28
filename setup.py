@@ -11,7 +11,7 @@ setuptools.setup(
     description="Package to interact with the Opisense API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/svandegar/opisense_client/archive/0.2.0.tar.gz",
+    download_url="https://github.com/opinum/opisense_client/archive/0.2.0.tar.gz",
     url="https://github.com/svandegar/opisense_client",
     packages=setuptools.find_packages(),
     install_reauires=[
