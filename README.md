@@ -8,4 +8,11 @@ More info about Opisense at www.opisense.com
 This is a first version to be tested by the users
 
 ## Changelog
+### 0.3 :
+#### force_path 
+Added force_path optional parameter to http.POST and http.PUT. 
+Overwrites the default OpisenseObject.api_path in the http call.
 
+#### json_output
+Added json_output optional parameter to http.GET
+If True, Returns the JSON object from the http response if available.
