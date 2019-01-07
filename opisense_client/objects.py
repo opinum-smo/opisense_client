@@ -11,6 +11,11 @@ STANDARD_PUSH_DATA_URL = 'https://push.opinum.com/api/data/'
 
 class ApiFilter:
     def __init__(self, path: str, **filters):
+        """
+        Builds a filter object used to set the parameters to request data from Opisense API.
+        :param path: API path
+        :param filters: filters to be applied to the GET request
+        """
         self.path = path
         _ = {}
         for filter in filters:
@@ -18,17 +23,32 @@ class ApiFilter:
         self.filters = _
 
     def __add__(self, **filters):
+        """
+        Add parameters to the API filter
+        :param filters: parameters to add
+        """
         for filter in filters:
             self.filters[filter] = filters[filter]
 
 
 class DataPoints:
-    def __init__(self, date: datetime, value):
+    def __init__(self, date: datetime, value: float):
+        """
+        Builds a standard datapoint list to build a StandardData object
+        :param date: datetime object
+        :param value: floating point value
+        """
         date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
         self.list = [{'date': date, 'value': value}]
         self.json = json.dumps(self.list)
 
-    def __add__(self, date: datetime, value):
+    def __add__(self, date: datetime, value: float):
+        """
+        Add datapoints to
+        :param date: datetime object
+        :param value: floating point value
+        :return:
+        """
         date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
         self.list.append({'date': date, 'value': value})
         self.json = json.dumps(self.list)
@@ -36,18 +56,46 @@ class DataPoints:
 
 class StandardData:
     def __init__(self, datapoints: DataPoints, sourceId=None, sourceSerialNumber=None, meterNumber=None,
-                 sourceEan=None, mappingConfig=None):
-        _ = {}
-        _['sourceId'] = sourceId
-        _['sourceSerialNumber'] = sourceSerialNumber
-        _['meterNumber'] = meterNumber
-        _['sourceEan'] = sourceEan
-        _['mappingConfig'] = mappingConfig
-        _['data'] = datapoints.list
-        self.list = [_]
-        self.json = json.dumps(self.list)
+                 sourceEan=None, mappingConfig=None, variableId=None):
+        """
+        Builds a StandardData object to be pushed to Opisense API.
+        At least one of the optionals args must be present.
+        :param datapoints: DataPoint object
+        :param sourceId: optional : Opisense Source internal identifier
+        :param sourceSerialNumber: optional : Opisense Source Serial Number
+        :param meterNumber: optional : Opisense Source Meter Number
+        :param sourceEan: optional : Opisense Source EAN Number
+        :param mappingConfig: optional : Opisense Variable Mapping
+        :
+        """
+        if sourceId or sourceSerialNumber or sourceEan or meterNumber and mappingConfig:
+            args = {}
+            args['sourceId'] = sourceId
+            args['sourceSerialNumber'] = sourceSerialNumber
+            args['meterNumber'] = meterNumber
+            args['sourceEan'] = sourceEan
+            args['mappingConfig'] = mappingConfig
+            args['data'] = datapoints.list
+            self.list = [args]
+            self.json = json.dumps(self.list)
+        elif variableId:
+            args = {}
+            args['variableId'] = mappingConfig
+            args['data'] = datapoints.list
+            self.list = [args]
+            self.json = json.dumps(self.list)
+
+        else:
+            raise ValueError(
+                'At least one of the optional source parameters + mapping config or just the variableId is mandatory')
 
     def POST(self, opisense_token: str, feedback=False):
+        """
+        POST the StandardData object to the Opisense API
+        :param opisense_token: Opisense Bearer token
+        :param feedback: if feedback = True, returns the http response code
+        :return:
+        """
         result = requests.post(STANDARD_PUSH_DATA_URL,
                                data=self.json,
                                headers={"Authorization": opisense_token,
@@ -63,7 +111,7 @@ class OpisenseObject:
         Creates an Opisense Object
         :param type: Opisense object type (site, gateway, source, variable, form,...)
         :param opisense_object: dictionary containing the Opisense structure for this object type
-        :param id:
+        :param id:optional : Opisense internal object ID
         """
         self.id = id
         self.type = type.lower()
@@ -75,4 +123,8 @@ class OpisenseObject:
     DELETE = DELETE
 
     def json(self):
+        """
+        Serialize the object in JSON
+        :return: JSON
+        """
         return json.dumps(self.content)
