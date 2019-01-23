@@ -13,7 +13,9 @@ headers = {"Content-Type": "application/json",
            "X-Opisense-Api-Version": "1.1"}
 
 """ Methods """
-def GET(opisense_token: str, api_filter, json_output = False, feedback=False):
+
+
+def GET(opisense_token: str, api_filter, json_output=False, feedback=False):
     """
     Get every Opisense Objects corresponding to the ApiFilter
     :param opisense_token: token needed to authorize the call. See "Authorize function"
@@ -35,7 +37,7 @@ def GET(opisense_token: str, api_filter, json_output = False, feedback=False):
         return result
 
 
-def POST(opisense_object, opisense_token: str,  parent_id=None, force_path = None,feedback=False):
+def POST(opisense_object, opisense_token: str, parent_id=None, force_path=None, feedback=False):
     """
     Creates a new Opisense Object
     :param opisense_object: Opisense Object to create
@@ -64,14 +66,14 @@ def POST(opisense_object, opisense_token: str,  parent_id=None, force_path = Non
     return result
 
 
-def PUT(opisense_object, opisense_token: str, parent_id=None, force_path = None,feedback=False):
+def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, feedback=False):
     """
     Updates existing Opisense Object
     :param opisense_object: Opisense Object to update
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to update some objects type
     :param feedback: if True, prints HTTP response code in console
-    :param force_path: if specified, POST to this path instead of the default one
+    :param force_path: if specified, PUT to this path instead of the default one
     :return:
     """
     if force_path:
@@ -100,13 +102,13 @@ def PUT(opisense_object, opisense_token: str, parent_id=None, force_path = None,
     return result
 
 
-def DELETE(opisense_object, opisense_token: str, feedback=False):
+def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False):
     """
     Deletes existing Opisense Object
     :param opisense_object: Opisense Object to delete
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param feedback: if True, prints HTTP response code in console
-    :param force_path: if specified, POST to this path instead of the default one
+    :param force_path: if specified, DELETE to this path instead of the default one
     :return:
     """
     if force_path:

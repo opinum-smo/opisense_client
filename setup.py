@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opisense_client",
-    version="0.3.0",
+    version="1.0.0",
     author="Seraphin Vandegar",
     author_email="svandegar@hotmail.com",
     description="Package to interact with the Opisense API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/opinum/opisense_client/archive/0.3.0.tar.gz",
+    download_url="https://github.com/opinum/opisense_client/archive/1.0.0.tar.gz",
     url="https://github.com/opinum/opisense_client",
     packages=setuptools.find_packages(),
     install_reauires=[
