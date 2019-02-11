@@ -16,6 +16,35 @@ Contact support@opinum.com to get an API secret and API key
 #### 3. Install opisense_client package
 You can install opisense_client by typing `pip install opisense-client` in your terminal.
 
+### Configuration
+#### Credentials file
+Although you can define a dictonary containing your credentials in you script, it is more secure to store them in a separate file.  
+The file should be a .JSON format and the expected format is the following :  
+```json
+{  
+  "user": {
+    "username": "xxxxxxx",
+    "password": "xxxxxxx"
+  },
+  "api": {
+    "client_secret": "xxxxxx",
+    "client_id": "xxxxxx",
+    "scope":"opisense-api push-data"
+  }
+}
+```
+The `xxxxxx` should be replaced by your own credentials (see Prerequisites 1. and 2.)
+
+The following code will read the file and store data in a Python dictionary :  
+```python
+import json
+with open('path/to/your/file/credentials.JSON', encoding='utf-8') as file:  
+    credentials = json.load(file)  
+user_credentials = credentials['user']  
+api_credentials = credentials['api']  
+```
+`path/to/your/file/` is the local path to your credentials file and `credentials.JSON` is the filename. 
+
 ### Functionalities
 #### objects  
 * **ApiFilter**:  
