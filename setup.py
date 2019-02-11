@@ -14,7 +14,7 @@ setuptools.setup(
     download_url="https://github.com/opinum/opisense_client/archive/1.0.2.tar.gz",
     url="https://github.com/opinum/opisense_client",
     packages=setuptools.find_packages(),
-    install_reauires=[
+    install_requires=[
         'requests',
         'requests_oauthlib',
         'oauthlib'
