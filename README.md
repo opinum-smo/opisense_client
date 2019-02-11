@@ -69,6 +69,10 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
+### 1.0.1 : 
+#### Fix auth bug linked to oauth lib library update
+set `auth = None` in `oauth.fetch_token()` in http.py to avoid getting an 'invalid_client' error
+
 ### 1.0.0 : 
 #### First stable version
 #### StandardData

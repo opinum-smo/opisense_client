@@ -144,7 +144,7 @@ def authorize(user_credentials: dict, api_credentials: dict, feedback=False):
                               password=user_credentials['password'],
                               client_id=client_id,
                               client_secret=client_secret,
-                              auth=False)
+                              auth=None)
     access_token = 'Bearer ' + token['access_token']
     if feedback == True:
         api_filter = oc.ApiFilter('account')
