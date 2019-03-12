@@ -32,26 +32,50 @@ class ApiFilter:
 
 
 class DataPoints:
-    def __init__(self, date: datetime, value: float):
+    def __init__(self, date: datetime = None, value: float = None, datapoints_list = None):
         """
         Builds a standard datapoint list to build a StandardData object
         :param date: datetime object
         :param value: floating point value
+        :param datapoints_list: *args [{date : datetime, value : float}] to initialize the object based on a list of dict
         """
-        date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
-        self.list = [{'date': date, 'value': value}]
-        self.json = json.dumps(self.list)
+        if not date and not value and not datapoints_list:
+            raise ValueError('date and value or datapoints_list must be defined')
 
-    def __add__(self, date: datetime, value: float):
+        if date and value:
+            date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
+            self.list = [{'date': date, 'value': value}]
+        else:
+            self.list = []
+
+        for datapoint in datapoints_list:
+            date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
+            self.list.append({'date': date, 'value': datapoint['value']})
+
+    def __add__(self, date: datetime = None, value: float = None, datapoints_list = None):
         """
         Add datapoints to
         :param date: datetime object
         :param value: floating point value
-        :return:
+        :param datapoints_list: *args [{date : datetime, value : float}] to initialize the object based on a list of dict
         """
-        date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
-        self.list.append({'date': date, 'value': value})
-        self.json = json.dumps(self.list)
+        if not date and not value and not datapoints_list:
+            raise ValueError('date and value or datapoints_list must be defined')
+
+        if date and value:
+            date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
+            self.list.append({'date': date, 'value': value})
+
+        for datapoint in datapoints_list:
+            date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
+            self.list.append({'date': date, 'value': datapoint['value']})
+
+    def to_json(self):
+        """
+        Convert the datapoints list to JSON
+        :return: JSON
+        """
+        return json.dumps(self.list)
 
 
 class StandardData:

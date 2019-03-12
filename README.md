@@ -98,7 +98,14 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
-### 1.0.1 : 
+### 1.1.0 : 
+#### Features:  
+Add datapoints_list as optionnal input for DataPoints Objects. Allows to create a DataPoints object from a list of dictionaries `[{'date':datetime,'value':float}]`
+
+#### Fixes:  
+Fix StandardData object bug, using mapping_config instead of variableId to build the object.   
+
+### 1.0.2 : 
 #### Fix auth bug linked to oauth lib library update
 set `auth = None` in `oauth.fetch_token()` in http.py to avoid getting an 'invalid_client' error
 
