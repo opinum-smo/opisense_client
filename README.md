@@ -98,18 +98,20 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
-### 1.1.0 : 
-#### Features:  
-Add datapoints_list as optionnal input for DataPoints Objects. Allows to create a DataPoints object from a list of dictionaries `[{'date':datetime,'value':float}]`
-
+### 1.1.1:
 #### Fixes:  
 Fix StandardData object bug, using mapping_config instead of variableId to build the object.   
 
-### 1.0.2 : 
+
+### 1.1.0: 
+#### Features:  
+Add datapoints_list as optional input for DataPoints Objects. Allows to create a DataPoints object from a list of dictionaries `[{'date':datetime,'value':float}]`
+
+### 1.0.2: 
 #### Fix auth bug linked to oauth lib library update
 set `auth = None` in `oauth.fetch_token()` in http.py to avoid getting an 'invalid_client' error
 
-### 1.0.0 : 
+### 1.0.0: 
 #### First stable version
 #### StandardData
 Added variableId as unique identifier option
@@ -117,7 +119,7 @@ Added variableId as unique identifier option
 #### Documentation
 Updated README.MD and documented every object and method
 
-### 0.3 :
+### 0.3:
 #### force_path 
 Added force_path optional parameter to http.POST and http.PUT. 
 Overwrites the default OpisenseObject.api_path in the http call.

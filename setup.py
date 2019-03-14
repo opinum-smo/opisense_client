@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opisense_client",
-    version="1.1.0",
+    version="1.1.1",
     author="Seraphin Vandegar",
     author_email="svandegar@hotmail.com",
     description="Package to interact with the Opisense API",

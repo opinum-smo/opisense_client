@@ -104,7 +104,7 @@ class StandardData:
             self.json = json.dumps(self.list)
         elif variableId:
             args = {}
-            args['variableId'] = mappingConfig
+            args['variableId'] = variableId
             args['data'] = datapoints.list
             self.list = [args]
             self.json = json.dumps(self.list)
