@@ -47,10 +47,10 @@ class DataPoints:
             self.list = [{'date': date, 'value': value}]
         else:
             self.list = []
-
-        for datapoint in datapoints_list:
-            date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
-            self.list.append({'date': date, 'value': datapoint['value']})
+        if datapoints_list:
+            for datapoint in datapoints_list:
+                date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
+                self.list.append({'date': date, 'value': datapoint['value']})
 
     def __add__(self, date: datetime = None, value: float = None, datapoints_list = None):
         """
@@ -66,9 +66,10 @@ class DataPoints:
             date = date.strftime('%Y-%m-%dT%H:%M:%S%z')
             self.list.append({'date': date, 'value': value})
 
-        for datapoint in datapoints_list:
-            date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
-            self.list.append({'date': date, 'value': datapoint['value']})
+        if datapoints_list:
+            for datapoint in datapoints_list:
+                date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
+                self.list.append({'date': date, 'value': datapoint['value']})
 
     def to_json(self):
         """
