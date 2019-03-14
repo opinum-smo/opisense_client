@@ -98,7 +98,7 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
-### 1.1.1:
+### 1.1.2:
 #### Fixes:  
 Fix StandardData object bug, using mapping_config instead of variableId to build the object.   
 
