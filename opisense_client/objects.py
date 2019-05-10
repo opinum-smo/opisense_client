@@ -1,13 +1,8 @@
 import json
 import datetime
 import requests
-from opisense_client.http import POST, PUT, DELETE
-
-""" Parameters """
-STANDARD_PUSH_DATA_URL = 'https://push.opinum.com/api/data/'
-
-""" Opisense Objects """
-
+from opisense_client.http import *
+from .inputs import STANDARD_PUSH_DATA_URL
 
 class ApiFilter:
     def __init__(self, path: str, **filters):

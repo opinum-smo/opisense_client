@@ -3,17 +3,7 @@ from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 import opisense_client as oc
 import requests
-from opisense_client import PATHS_TAGS
-
-""" Parameters """
-API_URL = 'https://api.opinum.com:443/'
-AUTHORIZATION_URL = 'https://identity.opinum.com/connect/token'
-headers = {"Content-Type": "application/json",
-           "Authorization": "",
-           "X-Opisense-Api-Version": "1.1"}
-
-""" Methods """
-
+from .inputs import PATHS_TAGS, AUTHORIZATION_URL,API_URL,headers
 
 def GET(opisense_token: str,
         api_filter,
@@ -36,16 +26,16 @@ def GET(opisense_token: str,
         print('Response: ' + str(result.status_code))
 
     if opisense_objects:
+        objects = []
         try:
-            path = PATHS_TAGS['/' + api_filter.path]
+            object_type = PATHS_TAGS['/' + api_filter.path]
 
         except KeyError:
             raise KeyError('Cannot determine the object type, based on the API path')
 
         try:
-            objects = []
             for object in result.json():
-                objects.append(oc.OpisenseObject(path, object, id=object['id']))
+                objects.append(oc.OpisenseObject(object_type, object, id=object['id']))
 
             return objects
 

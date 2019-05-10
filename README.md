@@ -99,6 +99,10 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
+### 1.2.1:
+#### Fixes:  
+Fix import problem
+
 ### 1.2.0:
 #### Features:  
 Add `opisense_object` option to `http.GET()` function. This option  changes the output to a list of Opisense Objects created from the json response. 
