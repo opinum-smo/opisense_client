@@ -63,7 +63,7 @@ The `POST` method of this class takes a bearer token as argument and uploads the
 
 * **OpisenseObject**:
 This object is a generic Opisense Object taking a type string and a dictionary containing all the Opisense parameters related to this kind of object. See [Opisense API documentation](https://docs.opinum.com/restapi/index.html) for more details on Opisense Objects.  
-The `POST`, `PUT` and `DELETE` methods of this class takes a bearer token as argument and uploads the StandardData object to Opisense API, using the appropriate http method.  
+The `POST`, `PUT` and `DELETE` methods of this class take a bearer token as argument and uploads the StandardData object to Opisense API, using the appropriate http method.  
 The `json` method of this function returns the object contain, serialized in JSON, using the built-in [json](https://docs.python.org/3/library/json.html) method.
 
 #### http
