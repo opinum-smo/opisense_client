@@ -3,7 +3,7 @@ from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 import opisense_client as oc
 import requests
-import json
+from opisense_client import PATHS_TAGS
 
 """ Parameters """
 API_URL = 'https://api.opinum.com:443/'
@@ -15,31 +15,61 @@ headers = {"Content-Type": "application/json",
 """ Methods """
 
 
-def GET(opisense_token: str, api_filter, json_output=False, feedback=False):
+def GET(opisense_token: str,
+        api_filter,
+        json_output=False,
+        opisense_objects=False,
+        feedback=False):
     """
     Get every Opisense Objects corresponding to the ApiFilter
+
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param api_filter: ApiFilter object
-    :param json_output: if Truem returns the json object from the response
-    :param feedback: if True, prints HTTP response code in console
+    :param json_output: if True, returns the json object from the response
+    :param opisense_objects: if True, returns a list of Opisense objects
+    :param feedback: if True, prints HTTP status code in console
     :return:
     """
     headers['Authorization'] = opisense_token
     result = requests.get(API_URL + api_filter.path + '?' + urlencode(api_filter.filters, True), headers=headers)
     if feedback == True:
         print('Response: ' + str(result.status_code))
+
+    if opisense_objects:
+        try:
+            path = PATHS_TAGS['/' + api_filter.path]
+
+        except KeyError:
+            raise KeyError('Cannot determine the object type, based on the API path')
+
+        try:
+            objects = []
+            for object in result.json():
+                objects.append(oc.OpisenseObject(path, object, id=object['id']))
+
+            return objects
+
+        except:
+            raise ValueError('Cannot get output because No JSON is available in the response')
+
     if json_output:
         try:
             return result.json()
         except:
-            raise ValueError('No JSON available in the response')
+            raise ValueError('No JSON available in the HTTP response')
+
     else:
         return result
 
 
-def POST(opisense_object, opisense_token: str, parent_id=None, force_path=None, feedback=False):
+def POST(opisense_object,
+         opisense_token: str,
+         parent_id: int = None,
+         force_path: str = None,
+         feedback: bool = False):
     """
     Creates a new Opisense Object
+
     :param opisense_object: Opisense Object to create
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to create some objects type
@@ -48,7 +78,10 @@ def POST(opisense_object, opisense_token: str, parent_id=None, force_path=None, 
     :return:
     """
     if force_path:
-        path = force_path
+        if force_path in PATHS_TAGS:
+            path = force_path
+        else:
+            raise ValueError('This path is not valid.')
     else:
         path = opisense_object.api_path
 
@@ -69,6 +102,7 @@ def POST(opisense_object, opisense_token: str, parent_id=None, force_path=None, 
 def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, feedback=False):
     """
     Updates existing Opisense Object
+
     :param opisense_object: Opisense Object to update
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to update some objects type
@@ -77,7 +111,10 @@ def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, f
     :return:
     """
     if force_path:
-        path = force_path
+        if force_path in PATHS_TAGS:
+            path = force_path
+        else:
+            raise ValueError('This path is not valid.')
     else:
         path = opisense_object.api_path
 
@@ -105,6 +142,7 @@ def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, f
 def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False):
     """
     Deletes existing Opisense Object
+
     :param opisense_object: Opisense Object to delete
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param feedback: if True, prints HTTP response code in console
@@ -112,7 +150,10 @@ def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False
     :return:
     """
     if force_path:
-        path = force_path
+        if force_path in PATHS_TAGS:
+            path = force_path
+        else:
+            raise ValueError('This path is not valid.')
     else:
         path = opisense_object.api_path
 
@@ -128,7 +169,8 @@ def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False
 
 def authorize(user_credentials: dict, api_credentials: dict, feedback=False):
     """
-    gets Opisense Token
+    Gets Opisense Token
+
     :param user_credentials: dict containing 'client_id' , 'client_secret' and 'scope' keys
     :param api_credentials: dict containing 'username' and 'password' keys
     :param feedback: if True, prints HTTP response code in console

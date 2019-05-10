@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="opisense_client",
-    version="1.1.2",
+    version="1.2.0",
     author="Seraphin Vandegar",
     author_email="svandegar@hotmail.com",
     description="Package to interact with the Opisense API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/opinum/opisense_client/archive/1.0.2.tar.gz",
+    download_url="https://github.com/opinum/opisense_client/archive/1.2.0.tar.gz",
     url="https://github.com/opinum/opisense_client",
     packages=setuptools.find_packages(),
     install_requires=[
@@ -20,7 +20,7 @@ setuptools.setup(
         'oauthlib'
     ],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],

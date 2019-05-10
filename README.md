@@ -74,7 +74,8 @@ The optional *feedback* argument returns in the console the Opisense account nam
 * **GET**:   
 This function takes a bearer token and an ApiFilter object as inputs, perform an http call using GET method to Opisense API to get every element matching the filter and returns the response from the server.  
 The optionnal *json_output* argument changes the output to the json content of the server response.  
-The optional *feedback* argument returns the server response code in the console. 
+The optional *feedback* argument returns the server response code in the console.
+The optionnal *opisense_object* argument changes the output to a list of Opisense Objects created from the json response.
   
 * **POST**:  
 This function takes a bearer token and an OpisenseObject as inputs, creates the elements in Opisense database using the API POST method and returns the response from the server.  
@@ -98,6 +99,10 @@ Every object and method is described with docstrings. You can easily access it b
 
 
 ## Changelog
+### 1.2.0:
+#### Features:  
+Add `opisense_object` option to `http.GET()` function. This option  changes the output to a list of Opisense Objects created from the json response. 
+
 ### 1.1.2:
 #### Fixes:  
 Fix StandardData object bug, using mapping_config instead of variableId to build the object.   
