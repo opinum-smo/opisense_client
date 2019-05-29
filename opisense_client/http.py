@@ -3,7 +3,8 @@ from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 import opisense_client as oc
 import requests
-from .inputs import PATHS_TAGS, AUTHORIZATION_URL,API_URL,headers
+from .inputs import PATHS_TAGS, AUTHORIZATION_URL, API_URL, headers
+
 
 def GET(opisense_token: str,
         api_filter,
@@ -55,8 +56,9 @@ def GET(opisense_token: str,
 def POST(opisense_object,
          opisense_token: str,
          parent_id: int = None,
-         force_path: str = None,
-         feedback: bool = False):
+         path: str = None,
+         force_path = False,
+         feedback: bool = False) -> requests.Response:
     """
     Creates a new Opisense Object
 
@@ -64,8 +66,9 @@ def POST(opisense_object,
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to create some objects type
     :param feedback: if True, prints HTTP response code in console
-    :param force_path: if specified, POST to this path instead of the default one
-    :return:
+    :param path: if specified, POST to this path instead of the default one
+    :param force_path:  argument allows to use a path not in the default list.
+    :return: Http response
     """
     if force_path:
         if force_path in PATHS_TAGS:
@@ -89,16 +92,22 @@ def POST(opisense_object,
     return result
 
 
-def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, feedback=False):
+def PUT(opisense_object,
+        opisense_token: str,
+        parent_id=None,
+        path: str = None,
+        force_path=False,
+        feedback=False) -> requests.Response:
     """
     Updates existing Opisense Object
 
     :param opisense_object: Opisense Object to update
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to update some objects type
+    :param path: if specified, PUT to this path instead of the default one
+    :param force_path:  argument allows to use a path not in the default list.
     :param feedback: if True, prints HTTP response code in console
-    :param force_path: if specified, PUT to this path instead of the default one
-    :return:
+    :return: Http response
     """
     if force_path:
         if force_path in PATHS_TAGS:
@@ -129,21 +138,27 @@ def PUT(opisense_object, opisense_token: str, parent_id=None, force_path=None, f
     return result
 
 
-def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False):
+def DELETE(opisense_object,
+           opisense_token: str,
+           path: str = None,
+           force_path=False,
+           feedback=False) -> requests.Response:
     """
     Deletes existing Opisense Object
 
     :param opisense_object: Opisense Object to delete
     :param opisense_token: token needed to authorize the call. See "Authorize function"
+    :param path: if specified, DELETE to this path instead of the default one
+    :param force_path:  argument allows to use a path not in the default list.
     :param feedback: if True, prints HTTP response code in console
-    :param force_path: if specified, DELETE to this path instead of the default one
-    :return:
+    :return: http response
     """
-    if force_path:
-        if force_path in PATHS_TAGS:
-            path = force_path
+    if path:
+        if path in PATHS_TAGS:
+            path = path
         else:
-            raise ValueError('This path is not valid.')
+            if not force_path:
+                raise ValueError('This path is not valid.')
     else:
         path = opisense_object.api_path
 
@@ -157,7 +172,7 @@ def DELETE(opisense_object, opisense_token: str, force_path=None, feedback=False
     return result
 
 
-def authorize(user_credentials: dict, api_credentials: dict, feedback=False):
+def authorize(user_credentials: dict, api_credentials: dict, feedback=False) -> str:
     """
     Gets Opisense Token
 

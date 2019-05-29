@@ -68,7 +68,7 @@ The `json` method of this function returns the object contain, serialized in JSO
 
 #### http
 * **authorize**:   
-This function takes user credentials and api credentials dictionnaries as input and returns the OAuth2 bearer token required to interract with Opisense API.  
+This function takes user credentials and api credentials dictionaries as input and returns the OAuth2 bearer token required to interract with Opisense API.  
 The optional *feedback* argument returns in the console the Opisense account name and ID for which you got a token.
   
 * **GET**:   
@@ -81,24 +81,32 @@ The optionnal *opisense_object* argument changes the output to a list of Opisens
 This function takes a bearer token and an OpisenseObject as inputs, creates the elements in Opisense database using the API POST method and returns the response from the server.  
 The *parent_id* argument is necessary to create some type of OpisenseObjects. See [Opisense API documentation](https://docs.opinum.com/restapi/index.html) for details.  
 The optional *feedback* argument returns the server response code in the console.  
-The optional *force_path* argument allows to change the default path appended to the url in the POST call.
+The optional *path* argument allows to change the default path appended to the url in the POST call.
+The optional *force_path* argument allows to use a path not in the default list.
   
 * **PUT**:  
 This function takes a bearer token and an OpisenseObject as inputs, updates the elements in Opisense database using the API PUT method and returns the response from the server.  
 The *parent_id* argument is necessary to update some type of OpisenseObjects. See [Opisense API documentation](https://docs.opinum.com/restapi/index.html) for details.  
 The optional *feedback* argument returns the server response code in the console.
-The optional *force_path* argument allows to change the default path appended to the url in the POST call.
-  
+The optional *path* argument allows to change the default path appended to the url in the POST call.
+The optional *force_path* argument allows to use a path not in the default list. 
+ 
 * **DELETE**:  
 This function takes a bearer token and an OpisenseObject as inputs, deletes the elements in Opisense database using the API DELETE method and returns the response from the server.  
 The optional *feedback* argument returns the server response code in the console.  
-The optional *force_path* argument allows to change the default path appended to the url in the POST call.
+The optional *path* argument allows to change the default path appended to the url in the POST call.
+The optional *force_path* argument allows to use a path not in the default list.
 
 ### Objects and Methods description
 Every object and method is described with docstrings. You can easily access it by running `help(method)`
 
 
 ## Changelog
+### 1.3.0:
+#### Fixes:  
+- Add a rule to allow `from` and `to` filters in `ApiFilter` without interfering with python `from` reserved word. The arguments `date_from` and `date_to` are automatically converted to `from` and `to` filters in the class initialisation.  
+- Add a `path` argument and update the `force_path` argument to `PUT()`,`POST()` and `DELETE()` functions, to allow the usage of non-standard paths. 
+
 ### 1.2.1:
 #### Fixes:  
 Fix import problem

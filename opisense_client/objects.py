@@ -4,14 +4,20 @@ import requests
 from opisense_client.http import *
 from .inputs import STANDARD_PUSH_DATA_URL
 
+
 class ApiFilter:
     def __init__(self, path: str, **filters):
         """
-        Builds a filter object used to set the parameters to request data from Opisense API.
+        Builds a filter object used to set the parameters to request data from Opisense API. To use date filters 'from' and 'to', use 'date_from' and 'date_to'
         :param path: API path
         :param filters: filters to be applied to the GET request
         """
         self.path = path
+        if 'date_from' in filters.keys():
+            filters['from'] = filters.pop('date_from')
+        if 'date_to' in filters.keys():
+            filters['to'] = filters.pop('date_to')
+
         _ = {}
         for filter in filters:
             _[filter] = filters[filter]
@@ -19,15 +25,20 @@ class ApiFilter:
 
     def __add__(self, **filters):
         """
-        Add parameters to the API filter
+        Add parameters to the API filter. To add date filters 'from' and 'to', use 'date_from' and 'date_to'
         :param filters: parameters to add
         """
+        if 'date_from' in filters.keys():
+            filters['from'] = filters.pop('date_from')
+        if 'date_to' in filters.keys():
+            filters['to'] = filters.pop('date_to')
+
         for filter in filters:
             self.filters[filter] = filters[filter]
 
 
 class DataPoints:
-    def __init__(self, date: datetime = None, value: float = None, datapoints_list = None):
+    def __init__(self, date: datetime = None, value: float = None, datapoints_list=None):
         """
         Builds a standard datapoint list to build a StandardData object
         :param date: datetime object
@@ -47,7 +58,7 @@ class DataPoints:
                 date = datapoint['date'].strftime('%Y-%m-%dT%H:%M:%S%z')
                 self.list.append({'date': date, 'value': datapoint['value']})
 
-    def __add__(self, date: datetime = None, value: float = None, datapoints_list = None):
+    def __add__(self, date: datetime = None, value: float = None, datapoints_list=None):
         """
         Add datapoints to
         :param date: datetime object
