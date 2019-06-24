@@ -56,8 +56,7 @@ def GET(opisense_token: str,
 def POST(opisense_object,
          opisense_token: str,
          parent_id: int = None,
-         path: str = None,
-         force_path = False,
+         force_path = None,
          feedback: bool = False) -> requests.Response:
     """
     Creates a new Opisense Object
@@ -66,15 +65,12 @@ def POST(opisense_object,
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to create some objects type
     :param feedback: if True, prints HTTP response code in console
-    :param path: if specified, POST to this path instead of the default one
-    :param force_path:  argument allows to use a path not in the default list.
+    :param force_path: if specified, POST to this path instead of the default one
     :return: Http response
     """
     if force_path:
-        if force_path in PATHS_TAGS:
-            path = force_path
-        else:
-            raise ValueError('This path is not valid.')
+         path = force_path
+
     else:
         path = opisense_object.api_path
 
@@ -95,8 +91,7 @@ def POST(opisense_object,
 def PUT(opisense_object,
         opisense_token: str,
         parent_id=None,
-        path: str = None,
-        force_path=False,
+        force_path=None,
         feedback=False) -> requests.Response:
     """
     Updates existing Opisense Object
@@ -104,16 +99,13 @@ def PUT(opisense_object,
     :param opisense_object: Opisense Object to update
     :param opisense_token: token needed to authorize the call. See "Authorize function"
     :param parent_id: parent object ID needed to update some objects type
-    :param path: if specified, PUT to this path instead of the default one
-    :param force_path:  argument allows to use a path not in the default list.
+    :param force_path: if specified, PUT to this path instead of the default one
     :param feedback: if True, prints HTTP response code in console
     :return: Http response
     """
     if force_path:
-        if force_path in PATHS_TAGS:
-            path = force_path
-        else:
-            raise ValueError('This path is not valid.')
+         path = force_path
+
     else:
         path = opisense_object.api_path
 
@@ -140,25 +132,20 @@ def PUT(opisense_object,
 
 def DELETE(opisense_object,
            opisense_token: str,
-           path: str = None,
-           force_path=False,
+           force_path=None,
            feedback=False) -> requests.Response:
     """
     Deletes existing Opisense Object
 
     :param opisense_object: Opisense Object to delete
     :param opisense_token: token needed to authorize the call. See "Authorize function"
-    :param path: if specified, DELETE to this path instead of the default one
-    :param force_path:  argument allows to use a path not in the default list.
+    :param force_path: if specified, DELETE to this path instead of the default one
     :param feedback: if True, prints HTTP response code in console
     :return: http response
     """
-    if path:
-        if path in PATHS_TAGS:
-            path = path
-        else:
-            if not force_path:
-                raise ValueError('This path is not valid.')
+    if force_path:
+         path = force_path
+
     else:
         path = opisense_object.api_path
 

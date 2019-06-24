@@ -8,5 +8,11 @@
 /*.egg-info
 /*.egg
 
-#Local workspace
+# Local workspace
 .idea/workspace.xml
+
+# Local environment
+venv
+
+# Test credentials
+opisense_client/tests/test_credentails.JSON

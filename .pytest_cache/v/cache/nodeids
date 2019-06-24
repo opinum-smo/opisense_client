@@ -1,0 +1,8 @@
+[
+  "opisense_client/tests/tests.py::test_OpisenseObject",
+  "opisense_client/tests/tests.py::test_ApiFilter",
+  "opisense_client/tests/tests.py::test_authorize",
+  "opisense_client/tests/tests.py::test_GET",
+  "opisense_client/tests/tests.py::test_OpisenseObject_Calls",
+  "opisense_client/tests/tests.py::test_StandardData_POST"
+]

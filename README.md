@@ -49,6 +49,7 @@ api_credentials = credentials['api']
 #### objects  
 * **ApiFilter**:  
 This object contains the API path and a dictionary containing all the filters names and values used to querry Opisense database via an http call to the API. This call is described under [http](#http) section.  
+This is only used is input for the `http.GET()` method.
 See [Opisense API documentation](https://docs.opinum.com/restapi/index.html) for details on the path and filters availables for each type of Opisense Entities.  
 The `__add__` method of this class allows adding filters names and values to the existing ApiFilter object. 
 
@@ -104,7 +105,7 @@ Every object and method is described with docstrings. You can easily access it b
 ## Changelog
 ### 1.3.0:
 #### Fixes:  
-- Add a rule to allow `from` and `to` filters in `ApiFilter` without interfering with python `from` reserved word. The arguments `date_from` and `date_to` are automatically converted to `from` and `to` filters in the class initialisation.  
+- Add a rule to allow `from` and `to` filters in `ApiFilter` without interfering with python `from` reserved word. The arguments `date_from` and `date_to` are automatically converted to `from` and `to` filters in the object initialization.  
 - Add a `path` argument and update the `force_path` argument to `PUT()`,`POST()` and `DELETE()` functions, to allow the usage of non-standard paths. 
 
 ### 1.2.1:
