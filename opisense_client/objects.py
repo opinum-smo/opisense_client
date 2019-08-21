@@ -144,10 +144,24 @@ class OpisenseObject:
         :param opisense_object: dictionary containing the Opisense structure for this object type
         :param id:optional : Opisense internal object ID
         """
-        self.id = id
-        self.type = type.lower()
-        self.content = opisense_object
-        self.api_path = self.type + 's'
+        super().__setattr__('id', id)
+        super().__setattr__('content', opisense_object)
+        super().__setattr__('type', type.lower())
+        super().__setattr__('api_path', self.type + 's')
+        # self.id = id
+        # self.type = type.lower()
+        # self.content = opisense_object
+        # self.api_path = self.type + 's'
+
+    def __getattr__(self, item):
+        return self.content.get(item)
+
+    def __setattr__(self, key, value):
+        if key not in ['id','content','type','api_path']:
+            self.content[key] = value
+
+        else:
+            super().__setattr__(key,value)
 
     POST = POST
     PUT = PUT

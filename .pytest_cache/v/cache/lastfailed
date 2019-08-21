@@ -1,1 +1,3 @@
-{}
+{
+  "opisense_client/tests/tests.py::test_StandardData_POST": true
+}

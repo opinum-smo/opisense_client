@@ -2,6 +2,7 @@ import opisense_client as oc
 import datetime
 import random
 import json
+from time import sleep
 
 """ Inputs """
 
@@ -153,6 +154,8 @@ def test_StandardData_POST():
 
     result = data.POST(opisense_token)
     assert result.status_code == 204
+
+    sleep(5)
 
     result = oc.GET(opisense_token, oc.ApiFilter('data', variableId=991929,
                                                  date_from=start.strftime('%Y-%m-%dT%H:%M:%S%z')))

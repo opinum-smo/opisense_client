@@ -2,8 +2,7 @@
 API_URL = 'https://api.opinum.com:443/'
 AUTHORIZATION_URL = 'https://identity.opinum.com/connect/token'
 headers = {"Content-Type": "application/json",
-           "Authorization": "",
-           "X-Opisense-Api-Version": "1.1"}
+           "Authorization": ""}
 
 
 STANDARD_PUSH_DATA_URL = 'https://push.opinum.com/api/data/'

@@ -101,8 +101,22 @@ The optional *force_path* argument allows to use a path not in the default list.
 ### Objects and Methods description
 Every object and method is described with docstrings. You can easily access it by running `help(method)`
 
+## Tests
+The tests are located in `.\opisense_client\tests\tests.py`. To run the tets, do the following: 
+1. Install pytest: `pip install pytest`
+2. From the root folder of this repos, run `pytest .\opisense_client\tests\tests.py -vv`
+
 
 ## Changelog
+### 1.4.0:
+#### Fixes:
+- Remove the header "X-Opisense-Api-Version": "1.1" from http calls, to allow using the last version of the Opisense API.
+- Remove the `path` argument added in v1.3.0 as it was leading to some new errors. `force_path` from `PUT()`,`POST()` and `DELETE()` functions now accepts strings overriding default path.  
+
+#### Features:
+- Add getter and setter to OpisenseObjects to allows getting and setting objects attributes by dot notation. (i.e.: source.siteId give the same result as source.content['siteId'])
+- Make `opisense_object` optional for `POST` and `DELETE` functions. Add `id` argument to `DELETE` function to enter the Opisense internal Id to delete.
+
 ### 1.3.0:
 #### Fixes:  
 - Add a rule to allow `from` and `to` filters in `ApiFilter` without interfering with python `from` reserved word. The arguments `date_from` and `date_to` are automatically converted to `from` and `to` filters in the object initialization.  
