@@ -199,7 +199,7 @@ def authorize(user_credentials: dict, api_credentials: dict, feedback=False) -> 
     client_secret = api_credentials['client_secret']
     scope = api_credentials['scope']
     oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-    token = oauth.fetch_token(token_url='https://identity.opinum.com/connect/token',
+    token = oauth.fetch_token(token_url=AUTHORIZATION_URL,
                               scope=scope,
                               username=user_credentials['username'],
                               password=user_credentials['password'],

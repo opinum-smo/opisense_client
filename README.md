@@ -46,6 +46,14 @@ api_credentials = credentials['api']
 `path/to/your/file/` is the local path to your credentials file and `credentials.JSON` is the filename. 
 
 ### Functionalities
+#### root  
+* **change_urls**:   
+This function adapts the API URLs.  
+The optional *api_url* sets a new API URL
+The optional *authorization_url* sets a new AUTHORIZATION URL
+The optional *standard_push_data_url* sets a new STANDARD PUSH DATA URL
+  
+
 #### objects  
 * **ApiFilter**:  
 This object contains the API path and a dictionary containing all the filters names and values used to querry Opisense database via an http call to the API. This call is described under [http](#http) section.  
@@ -108,6 +116,10 @@ The tests are located in `.\opisense_client\tests\tests.py`. To run the tets, do
 
 
 ## Changelog
+### 1.5.0:
+#### Features:
+- Allow to use other URLs than default ones
+
 ### 1.4.0:
 #### Fixes:
 - Remove the header "X-Opisense-Api-Version": "1.1" from http calls, to allow using the last version of the Opisense API.
