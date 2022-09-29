@@ -101,25 +101,37 @@ def DELETE(opisense_object, opisense_token: str, feedback=False):
     return result
 
 
-def authorize(user_credentials: dict, api_credentials: dict, feedback=False):
+def authorize(user_credentials: dict, api_credentials: dict, account_id: int=None, feedback=False) -> str:
     """
-    gets Opisense Token
+    Gets Opisense Token
+
     :param user_credentials: dict containing 'client_id' , 'client_secret' and 'scope' keys
     :param api_credentials: dict containing 'username' and 'password' keys
-    :param feedback: if True, prints HTTP response code in console
+    :param account_id : if set, switches to account ID (administrator only, and multi-accounts must be supported). Defaults to None.
+    :param feedback: if True, prints HTTP response code in console. Defaults to False.
     :return: str : Opisense Token
     """
     client_id = api_credentials['client_id']
     client_secret = api_credentials['client_secret']
     scope = api_credentials['scope']
     oauth = OAuth2Session(client=LegacyApplicationClient(client_id=client_id))
-    token = oauth.fetch_token(token_url='https://identity.opinum.com/connect/token',
-                              scope=scope,
-                              username=user_credentials['username'],
-                              password=user_credentials['password'],
-                              client_id=client_id,
-                              client_secret=client_secret,
-                              auth=False)
+    if account_id is None:
+        token = oauth.fetch_token(token_url=AUTHORIZATION_URL,
+                                scope=scope,
+                                username=user_credentials['username'],
+                                password=user_credentials['password'],
+                                client_id=client_id,
+                                client_secret=client_secret,
+                                auth=None)
+    else:
+        token = oauth.fetch_token(token_url=AUTHORIZATION_URL,
+                                scope=scope,
+                                username=user_credentials['username'],
+                                password=user_credentials['password'],
+                                client_id=client_id,
+                                client_secret=client_secret,
+                                acr_values="accountId:"+str(account_id),
+                                auth=None)
     access_token = 'Bearer ' + token['access_token']
     if feedback == True:
         api_filter = oc.ApiFilter('account')

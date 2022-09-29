@@ -79,12 +79,13 @@ The `json` method of this function returns the object contain, serialized in JSO
 * **authorize**:   
 This function takes user credentials and api credentials dictionaries as input and returns the OAuth2 bearer token required to interract with Opisense API.  
 The optional *feedback* argument returns in the console the Opisense account name and ID for which you got a token.
+**NEW** The optional *account_id* argument allows account switching in multi-account environment (administrators only)
   
 * **GET**:   
 This function takes a bearer token and an ApiFilter object as inputs, perform an http call using GET method to Opisense API to get every element matching the filter and returns the response from the server.  
-The optionnal *json_output* argument changes the output to the json content of the server response.  
+The optional *json_output* argument changes the output to the json content of the server response.  
 The optional *feedback* argument returns the server response code in the console.
-The optionnal *opisense_object* argument changes the output to a list of Opisense Objects created from the json response.
+The optional *opisense_object* argument changes the output to a list of Opisense Objects created from the json response.
   
 * **POST**:  
 This function takes a bearer token and an OpisenseObject as inputs, creates the elements in Opisense database using the API POST method and returns the response from the server.  
